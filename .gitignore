@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+artifacts/
+data/raw/
+data/processed/
+data/processed-check/
+data/*.db
+data/*.db-shm
+data/*.db-wal

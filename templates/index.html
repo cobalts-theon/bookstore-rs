@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="BookLog hybrid recommendation bookstore">
+  <title>BookLog Bookstore</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="logo" href="{{ url_for('home') }}">
+        <span class="logo-mark">B</span>
+        <span>BookLog</span>
+      </a>
+      <a class="nav-link" href="#recommend">Recommendations</a>
+      <form class="search" method="get">
+        <input name="q" value="{{ query }}" placeholder="Search title or author..." aria-label="Search books">
+        <button aria-label="Search">Search</button>
+      </form>
+    </div>
+  </header>
+
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="container alerts">
+          {% for category, message in messages %}
+            <p class="alert alert-{{ category }}">{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="tag">Hybrid book recommendation</p>
+          <h1>Discover books made for your taste.</h1>
+          <p>Explore the bookstore, search favorite authors, or let BookLog recommend your next read.</p>
+          <a class="primary-button" href="#recommend">Find my next book</a>
+        </div>
+        <div class="hero-covers" aria-hidden="true">
+          {% for book in books[:3] %}
+            <img src="{{ book['Cover-URL'] }}" alt="" loading="eager"
+                 onerror="this.onerror=null;this.src='{{ url_for('static', filename='img/book-placeholder.svg') }}'">
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-bar">
+      <div class="container stats">
+        <span><strong>{{ stats.books }}</strong><small>Books</small></span>
+        <span><strong>{{ stats.users }}</strong><small>Active readers</small></span>
+        <span><strong>{{ stats.ratings }}</strong><small>Ratings analyzed</small></span>
+        <span><strong>Hybrid</strong><small>Recommendation method</small></span>
+      </div>
+    </section>
+
+    <div class="container content">
+      <section class="recommend-box" id="recommend">
+        <div>
+          <p class="tag">Personalized picks</p>
+          <h2>What should you read next?</h2>
+          <p>Choose a known reader, or select “New reader” and type one favorite book.</p>
+        </div>
+        <form method="get">
+          <label>
+            Reader profile
+            <select name="user_id">
+              <option value="-1" {% if selected_user == -1 %}selected{% endif %}>New reader</option>
+              {% for user in users %}
+                <option value="{{ user }}" {% if selected_user == user %}selected{% endif %}>Reader {{ user }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>
+            Favorite book
+            <input name="favorite" value="{{ selected_favorite }}" placeholder="Example: Harry Potter">
+          </label>
+          <button class="primary-button" type="submit">Recommend books</button>
+        </form>
+      </section>
+
+      <section class="catalog">
+        <div class="section-title">
+          <div>
+            <p class="tag">Book collection</p>
+            <h2>{{ title }}</h2>
+            <p>{{ message }}</p>
+          </div>
+          {% if query or selected_user is not none %}
+            <a class="clear-link" href="{{ url_for('home') }}">Clear results</a>
+          {% endif %}
+        </div>
+
+        {% if books %}
+          <div class="book-grid">
+            {% for book in books %}
+              <article class="book-card">
+                <div class="cover-wrap">
+                  <img class="cover-image"
+                       src="{{ book['Cover-URL'] }}"
+                       alt="Cover of {{ book['Book-Title'] }}"
+                       loading="lazy"
+                       referrerpolicy="no-referrer"
+                       onerror="this.onerror=null;this.src='{{ url_for('static', filename='img/book-placeholder.svg') }}'">
+                  {% if book.get('Hybrid-Score') is not none %}
+                    <span class="score">{{ (book['Hybrid-Score'] * 100)|round|int }}% match</span>
+                  {% endif %}
+                </div>
+                <div class="book-info">
+                  <p class="book-meta">{{ book['Year-Of-Publication'] or 'Classic' }} · {{ book['Publisher'] or 'Unknown publisher' }}</p>
+                  <h3 title="{{ book['Book-Title'] }}">{{ book['Book-Title'] }}</h3>
+                  <p class="author">{{ book['Book-Author'] or 'Unknown author' }}</p>
+                  {% if selected_user and selected_user > 0 %}
+                    <form class="rating-form" action="{{ url_for('rate_book') }}" method="post">
+                      <input type="hidden" name="user_id" value="{{ selected_user }}">
+                      <input type="hidden" name="isbn" value="{{ book['ISBN'] }}">
+                      <select name="rating" aria-label="Rating for {{ book['Book-Title'] }}">
+                        {% for value in range(10, 0, -1) %}
+                          <option value="{{ value }}">{{ value }}/10</option>
+                        {% endfor %}
+                      </select>
+                      <button type="submit">Save rating</button>
+                    </form>
+                  {% endif %}
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="empty">
+            <strong>No books found</strong>
+            <p>Try another title or author.</p>
+            <a class="primary-button" href="{{ url_for('home') }}">View all books</a>
+          </div>
+        {% endif %}
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-content">
+      <span class="logo">BookLog</span>
+      <span>Python · Flask · Hybrid Recommendation</span>
+    </div>
+  </footer>
+</body>
+</html>
