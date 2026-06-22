@@ -1,0 +1,44 @@
+{% if books %}
+  <div class="book-grid">
+    {% for book in books %}
+      <article class="book-card">
+        <div class="cover-wrap">
+          <img class="cover-image"
+               src="{{ book['Cover-URL'] }}"
+               alt="Cover of {{ book['Book-Title'] }}"
+               loading="lazy"
+               referrerpolicy="no-referrer"
+               onerror="this.onerror=null;this.src='{{ url_for('static', filename='img/book-placeholder.svg') }}'">
+          {% if book.get('Hybrid-Score') is not none %}
+            <span class="score">{{ (book['Hybrid-Score'] * 100)|round|int }}% match</span>
+          {% endif %}
+        </div>
+        <div class="book-info">
+          <p class="book-meta">{{ book['Year-Of-Publication'] or 'Classic' }} · {{ book['Publisher'] or 'Unknown publisher' }}</p>
+          <h3 title="{{ book['Book-Title'] }}">{{ book['Book-Title'] }}</h3>
+          <p class="author">{{ book['Book-Author'] or 'Unknown author' }}</p>
+          {% if current_account %}
+            <form class="rating-form" action="{{ url_for('rate_book') }}" method="post">
+              <input type="hidden" name="isbn" value="{{ book['ISBN'] }}">
+              <input type="hidden" name="next" value="{{ request.full_path }}">
+              <select name="rating" aria-label="Rating for {{ book['Book-Title'] }}">
+                {% for value in range(10, 0, -1) %}
+                  <option value="{{ value }}">{{ value }}/10</option>
+                {% endfor %}
+              </select>
+              <button type="submit">Save rating</button>
+            </form>
+          {% else %}
+            <a class="rate-login" href="{{ url_for('login', next=request.full_path) }}">Login to rate</a>
+          {% endif %}
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty">
+    <strong>No books found</strong>
+    <p>Try another title, author, or collection.</p>
+    <a class="primary-button" href="{{ url_for('catalog') }}">View all books</a>
+  </div>
+{% endif %}

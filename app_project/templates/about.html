@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}About · BookLog{% endblock %}
+{% block content %}
+  <div class="container page-shell">
+    <section class="page-heading">
+      <p class="tag">About BookLog</p>
+      <h1>A complete bookstore recommendation demo.</h1>
+      <p>BookLog combines a real catalog interface, account flow, rating storage, and a hybrid recommendation model.</p>
+    </section>
+
+    <section class="about-grid">
+      <article>
+        <h2>Recommendation engine</h2>
+        <p>Content-based filtering compares book metadata, collaborative filtering learns from reader behavior, and popularity fallback keeps results useful for new users.</p>
+      </article>
+      <article>
+        <h2>Application features</h2>
+        <p>The app includes registration, login, profile recommendations, catalog search, collection filters, and persistent ratings in SQLite.</p>
+      </article>
+      <article>
+        <h2>Dataset scale</h2>
+        <p>{{ stats.books }} books, {{ stats.users }} reader profiles, and {{ stats.ratings }} ratings are available to the model.</p>
+      </article>
+    </section>
+  </div>
+{% endblock %}

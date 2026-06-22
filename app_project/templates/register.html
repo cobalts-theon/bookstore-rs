@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Register · BookLog{% endblock %}
+{% block content %}
+  <div class="auth-page">
+    <section class="auth-card">
+      <p class="tag">Start reading smarter</p>
+      <h1>Create account</h1>
+      <form method="post">
+        <label>
+          Full name
+          <input name="name" autocomplete="name" required>
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+        <label>
+          Password
+          <input type="password" name="password" autocomplete="new-password" minlength="6" required>
+        </label>
+        <label>
+          Confirm password
+          <input type="password" name="confirm_password" autocomplete="new-password" minlength="6" required>
+        </label>
+        <button class="primary-button" type="submit">Register</button>
+      </form>
+      <p class="form-note">Already have an account? <a href="{{ url_for('login') }}">Login</a>.</p>
+    </section>
+  </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Profile · BookLog{% endblock %}
+{% block content %}
+  <div class="container page-shell">
+    <section class="profile-head">
+      <div>
+        <p class="tag">Reader profile</p>
+        <h1>{{ current_account.name }}</h1>
+        <p>{{ current_account.email }} · Reader {{ reader_user_id }}</p>
+      </div>
+      <div class="profile-stat">
+        <strong>{{ rating_count }}</strong>
+        <span>Saved ratings</span>
+      </div>
+    </section>
+
+    <section class="catalog">
+      <div class="section-title">
+        <div>
+          <p class="tag">For you</p>
+          <h2>Your recommendations</h2>
+          <p>Rate more books to improve the collaborative side of the model.</p>
+        </div>
+        <a class="primary-button" href="{{ url_for('catalog') }}">Rate more books</a>
+      </div>
+      {% include "_book_grid.html" %}
+    </section>
+  </div>
+{% endblock %}

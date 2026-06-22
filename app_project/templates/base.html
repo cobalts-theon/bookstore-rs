@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="BookLog hybrid recommendation bookstore">
+  <title>{% block title %}BookLog Bookstore{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="logo" href="{{ url_for('home') }}">
+        <span class="logo-mark">B</span>
+        <span>BookLog</span>
+      </a>
+      <nav class="nav-menu" aria-label="Main navigation">
+        <a class="nav-link" href="{{ url_for('catalog') }}">Catalog</a>
+        <a class="nav-link" href="{{ url_for('about') }}">About</a>
+        {% if current_account %}
+          <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+        {% endif %}
+      </nav>
+      <form class="search" method="get" action="{{ url_for('catalog') }}">
+        <input name="q" value="{{ query|default('') }}" placeholder="Search title or author..." aria-label="Search books">
+        <button aria-label="Search">Search</button>
+      </form>
+      <div class="auth-actions">
+        {% if current_account %}
+          <span>{{ current_account.name }}</span>
+          <a class="ghost-button" href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+          <a class="ghost-button" href="{{ url_for('login') }}">Login</a>
+          <a class="primary-button small-button" href="{{ url_for('register') }}">Register</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="container alerts">
+          {% for category, message in messages %}
+            <p class="alert alert-{{ category }}">{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <div class="container footer-content">
+      <span class="logo">BookLog</span>
+      <span>Python · Flask · SQLite · Hybrid Recommendation</span>
+    </div>
+  </footer>
+</body>
+</html>

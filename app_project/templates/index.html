@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="tag">Hybrid book recommendation</p>
+        <h1>Discover books made for your taste.</h1>
+        <p>Search the catalog, create an account, rate books, and let BookLog learn your reading style.</p>
+        <div class="hero-actions">
+          <a class="primary-button" href="{{ url_for('catalog') }}">Browse catalog</a>
+          {% if current_account %}
+            <a class="ghost-button dark" href="{{ url_for('profile') }}">My recommendations</a>
+          {% else %}
+            <a class="ghost-button dark" href="{{ url_for('register') }}">Create account</a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="hero-covers" aria-hidden="true">
+        {% for book in books[:3] %}
+          <img src="{{ book['Cover-URL'] }}" alt="" loading="eager"
+               onerror="this.onerror=null;this.src='{{ url_for('static', filename='img/book-placeholder.svg') }}'">
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-bar">
+    <div class="container stats">
+      <span><strong>{{ stats.books }}</strong><small>Books</small></span>
+      <span><strong>{{ stats.users }}</strong><small>Reader profiles</small></span>
+      <span><strong>{{ stats.ratings }}</strong><small>Ratings analyzed</small></span>
+      <span><strong>Hybrid</strong><small>Recommendation method</small></span>
+    </div>
+  </section>
+
+  <div class="container content">
+    <section class="recommend-box" id="recommend">
+      <div>
+        <p class="tag">Personalized picks</p>
+        <h2>What should you read next?</h2>
+        <p>Use your account profile, or test a known reader id and a favorite title.</p>
+      </div>
+      <form method="get" action="{{ url_for('catalog') }}">
+        <label>
+          Reader profile
+          <select name="user_id">
+            {% if current_account %}
+              <option value="{{ current_account.reader_user_id }}">My account</option>
+            {% else %}
+              <option value="-1" {% if selected_user == -1 %}selected{% endif %}>New reader</option>
+            {% endif %}
+            {% for user in users[:250] %}
+              <option value="{{ user }}" {% if selected_user == user %}selected{% endif %}>Reader {{ user }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label>
+          Favorite book
+          <input name="favorite" value="{{ selected_favorite }}" placeholder="Example: Harry Potter">
+        </label>
+        <button class="primary-button" type="submit">Recommend books</button>
+      </form>
+    </section>
+
+    <section class="feature-grid">
+      <article>
+        <h3>Account system</h3>
+        <p>Readers can register, sign in, and keep their ratings attached to their own profile.</p>
+      </article>
+      <article>
+        <h3>Smart catalog</h3>
+        <p>Search by title or author and browse selected collections from the book dataset.</p>
+      </article>
+      <article>
+        <h3>Adaptive model</h3>
+        <p>Recommendations combine content similarity, collaborative filtering, and popularity fallback.</p>
+      </article>
+    </section>
+
+    <section class="catalog compact-catalog">
+      <div class="section-title">
+        <div>
+          <p class="tag">Book collection</p>
+          <h2>{{ title }}</h2>
+          <p>{{ message }}</p>
+        </div>
+        <a class="clear-link" href="{{ url_for('catalog') }}">Open full catalog</a>
+      </div>
+      {% include "_book_grid.html" %}
+    </section>
+  </div>
+{% endblock %}

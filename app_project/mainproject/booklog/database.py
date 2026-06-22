@@ -41,6 +41,16 @@ CREATE TABLE IF NOT EXISTS ratings (
 
 CREATE INDEX IF NOT EXISTS idx_ratings_isbn ON ratings(isbn);
 CREATE INDEX IF NOT EXISTS idx_ratings_user_id ON ratings(user_id);
+
+CREATE TABLE IF NOT EXISTS accounts (
+    account_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL,
+    reader_user_id INTEGER NOT NULL UNIQUE,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (reader_user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
 """
 
 
@@ -188,3 +198,68 @@ def save_rating(
             """,
             (user_id, isbn, rating),
         )
+
+
+def create_account(
+    database_path: str | Path, name: str, email: str, password_hash: str
+) -> int:
+    """Create an application account and linked recommendation reader."""
+    name = name.strip()
+    email = email.strip().lower()
+    if not name:
+        raise ValueError("Name is required.")
+    if not email:
+        raise ValueError("Email is required.")
+    if not password_hash:
+        raise ValueError("Password is required.")
+
+    with connect(database_path) as connection:
+        highest_user_id = connection.execute(
+            "SELECT COALESCE(MAX(user_id), 0) FROM users"
+        ).fetchone()[0]
+        reader_user_id = max(int(highest_user_id) + 1, 1_000_000)
+        try:
+            connection.execute(
+                "INSERT INTO users (user_id, location, age) VALUES (?, ?, ?)",
+                (reader_user_id, "", None),
+            )
+            cursor = connection.execute(
+                """
+                INSERT INTO accounts (name, email, password_hash, reader_user_id)
+                VALUES (?, ?, ?, ?)
+                """,
+                (name, email, password_hash, reader_user_id),
+            )
+        except sqlite3.IntegrityError as error:
+            raise ValueError("Email is already registered.") from error
+    return int(cursor.lastrowid)
+
+
+def find_account_by_email(database_path: str | Path, email: str) -> dict | None:
+    """Return one account by normalized email."""
+    with connect(database_path) as connection:
+        connection.row_factory = sqlite3.Row
+        row = connection.execute(
+            """
+            SELECT account_id, name, email, password_hash, reader_user_id, created_at
+            FROM accounts
+            WHERE email = ?
+            """,
+            (email.strip().lower(),),
+        ).fetchone()
+    return dict(row) if row else None
+
+
+def find_account_by_id(database_path: str | Path, account_id: int) -> dict | None:
+    """Return one account by id."""
+    with connect(database_path) as connection:
+        connection.row_factory = sqlite3.Row
+        row = connection.execute(
+            """
+            SELECT account_id, name, email, reader_user_id, created_at
+            FROM accounts
+            WHERE account_id = ?
+            """,
+            (account_id,),
+        ).fetchone()
+    return dict(row) if row else None
