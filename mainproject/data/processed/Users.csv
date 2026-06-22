@@ -1,0 +1,235 @@
+User-ID,Location,Age
+2033,"omaha, nebraska, usa",27.0
+2276,"niskayuna, new york, usa",46.0
+4017,"new orleans, louisiana, usa",48.0
+5582,"seattle, washington, usa",26.0
+6242,"calgary, alberta, canada",
+6251,"wahiawa, hawaii, usa",32.0
+6543,"strafford, missouri, usa",34.0
+6575,"seattle, washington, usa",
+7346,"sunnyvale, california, usa",49.0
+8067,"owings mills, maryland, usa",26.0
+8681,"orlando, florida, usa",34.0
+11676,"n/a, n/a, n/a",
+12538,"byron, minnesota, usa",18.0
+12982,"getxo, vizcaya, spain",41.0
+13552,"cordova, tennessee, usa",32.0
+16634,"little rock, arkansas, usa",42.0
+16795,"mechanicsville, maryland, usa",47.0
+17950,"puchong, selangor, malaysia",32.0
+21014,"fresno, california, usa",
+23768,"st. louis, missouri, usa",45.0
+23872,"tulsa, oklahoma, usa",22.0
+23902,"london, england, united kingdom",
+25409,"la mesa, california, usa",31.0
+25981,"nj, new jersey, usa",
+28634,"bad axe, michigan, usa",28.0
+30276,"wildwood, new jersey, usa",49.0
+30711,"sydney, new south wales, australia",32.0
+30735,"corvallis, oregon, usa",
+31315,"henryville, indiana, usa",34.0
+31556,"chula vista, california, usa",51.0
+31826,"jasper, missouri, usa",54.0
+32773,"olathe, kansas, usa",28.0
+35857,"mentor, ohio, usa",36.0
+35859,"duluth, minnesota, usa",
+36606,"san marcos, california, usa",39.0
+37712,"cincinnati, ohio, usa",23.0
+37950,"calgary, alberta, canada",
+38023,"hayward, california, usa",30.0
+38273,"chandler, arizona, usa",
+39281,"morris plains, new jersey, usa",45.0
+40889,"brainerd, minnesota, usa",37.0
+40943,"oklahoma city, oklahoma, usa",40.0
+43246,"toronto, ontario, canada",36.0
+43910,"granada hills, california, usa",43.0
+46398,"san antonio, texas, usa",37.0
+48025,"concordia, missouri, usa",43.0
+48494,"lemon grove, california, usa",51.0
+51883,"jasper, missouri, usa",31.0
+52584,"livermore, california, usa",45.0
+52917,"bellevue, washington, usa",42.0
+55187,"torrance, california, usa",48.0
+55490,"rapid city, south dakota, usa",25.0
+56399,"n/a, surrey, united kingdom",63.0
+56447,"sturgis, michigan, usa",22.0
+56959,"monroe twp., new jersey, usa",52.0
+59172,"owen sound, ontario, canada",36.0
+60244,"alvin, texas, usa",47.0
+60707,"manchester, new hampshire, usa",38.0
+67840,"houston, texas, usa",50.0
+68555,"bad axe, michigan, usa",
+69078,"new york, new york, usa",42.0
+69697,"west sacramento, california, usa",24.0
+70415,"crescent city, florida, usa",57.0
+70594,"prince george, british columbia, canada",53.0
+75591,"charleston, west virginia, usa",33.0
+76151,"sioux falls, south dakota, usa",49.0
+76499,"new york, new york, usa",
+76626,"london, england, united kingdom",38.0
+78553,"el cajon, california, usa",40.0
+78834,"honolulu, hawaii, usa",28.0
+78973,"amadora, lisboa, portugal",29.0
+83671,"iowa city, ,",52.0
+85526,"victoria, british columbia, canada",36.0
+87141,"huntington beach, california, usa",
+87555,"lexington, kentucky, usa",31.0
+88693,"shanghai, shanghai, china",30.0
+88733,"houston, texas, usa",
+89602,"honolulu, hawaii, usa",
+91113,"chicago, illinois, usa",26.0
+92810,"manistee, michigan, usa",60.0
+93047,"nashua, new hampshire, usa",52.0
+93629,"baton rouge, louisiana, usa",54.0
+94347,"oakland, new jersey, usa",44.0
+95359,"charleston, west virginia, usa",33.0
+95932,"manchester, new hampshire, usa",36.0
+97874,"n/a, british columbia, canada",
+98391,"morrow, georgia, usa",52.0
+98758,"calgary, alberta, canada",25.0
+100459,"bay area, california, usa",38.0
+100906,"seattle, washington, usa",34.0
+101606,"niagara falls, ontario, canada",32.0
+101851,"keizer, oregon, usa",29.0
+102359,"springfield, oregon, usa",
+102647,"modesto, california, usa",14.0
+102702,"honolulu, hawaii, usa",34.0
+104399,"middletown, ohio, usa",29.0
+104636,"youngstown, ohio, usa",
+105517,"calgary, alberta, canada",28.0
+105979,"oakland, california, usa",26.0
+106007,"santa rosa, california, usa",29.0
+107784,"tarentum, pennsylvania, usa",
+109574,"edmonton, alberta, canada",50.0
+110934,"kirkland, washington, usa",46.0
+110973,"wiley ford, west virginia, usa",43.0
+112001,"barren springs, virginia, usa",43.0
+113519,"pleasanton, california, usa",
+114368,"mechanicsville, maryland, usa",33.0
+114988,"temple, texas, usa",37.0
+115003,"asheville, north carolina, usa",43.0
+122429,"kamuela, hawaii, usa",48.0
+122793,"omemee, ontario, canada",46.0
+123883,"topeka, kansas, usa",18.0
+123981,"phoenix, arizona, usa",46.0
+125774,"tehran, tehran, iran",36.0
+126492,"westmont, illinois, usa",31.0
+126736,"fulton, missouri, usa",38.0
+127359,"beaverton, oregon, usa",33.0
+128835,"bellingham, washington, usa",60.0
+129716,"tallahassee, florida, usa",30.0
+133747,"gaithersburg, maryland, usa",28.0
+135149,"ft. pierce, florida, usa",
+135265,"groton, connecticut, usa",32.0
+136010,"brampton, ontario, canada",
+138844,"winnipeg, manitoba, canada",40.0
+140000,"london, england, united kingdom",
+140358,"san diego, california, usa",
+142524,"detroit, michigan, usa",36.0
+143415,"bellingham, washington, usa",50.0
+145449,"virginia beach, virginia, usa",
+146348,"tigard, oregon, usa",
+147847,"greenville, illinois, usa",
+150979,"greencastle, pennsylvania, usa",34.0
+153662,"ft. stewart, georgia, usa",44.0
+156150,"howell, new jersey, usa",36.0
+156269,"chicago, illinois, usa",53.0
+156467,"waltham, massachusetts, usa",38.0
+157273,"dripping springs, texas, usa",37.0
+158226,"oslo, oslo, norway",26.0
+158295,"cleveland, ohio, usa",
+162052,"danville, virginia, usa",51.0
+162639,"kelso, washington, usa",
+163973,"são paulo, são paulo, brazil",46.0
+165308,"new berlin, wisconsin, usa",33.0
+165319,"tucson, arizona, usa",28.0
+166123,"cortez, colorado, usa",32.0
+168245,"delisle, saskatchewan, canada",37.0
+171118,"toronto, ontario, canada",47.0
+172742,"astoria, oregon, usa",44.0
+173415,"chicago, illinois, usa",31.0
+174304,"st. louis, missouri, usa",26.0
+177432,"wichita, kansas, usa",33.0
+177458,"ottawa, ontario, canada",29.0
+178522,"somerset, ,",
+180651,"coventry, england, united kingdom",54.0
+181176,"st. louis, missouri, usa",43.0
+182085,"ginsheim, hessen, germany",
+184299,"omaha, nebraska, usa",31.0
+185233,"winnemucca, nevada, usa",31.0
+187145,"grapeview, washington, usa",65.0
+187517,"brooklyn, new york, usa",28.0
+189835,"honolulu, hawaii, usa",
+189973,"pittsburgh, pennsylvania, usa",
+190925,"hobe sound, florida, usa",51.0
+194600,"toronto, ontario, canada",51.0
+196077,"disputanta, virginia, usa",28.0
+196160,"auburn, alabama, usa",22.0
+197659,"indiana, pennsylvania, usa",49.0
+200226,"burlington, ontario, canada",39.0
+204864,"simi valley, california, usa",47.0
+206534,"evanston, illinois, usa",
+209516,"felixstowe, suffolk, united kingdom",57.0
+210485,"carmichael, california, usa",35.0
+214786,"boone county, kentucky, usa",
+216012,"clevelad, ohio, usa",34.0
+216683,"san jose, california, usa",
+217740,"madrid, madrid, spain",37.0
+218552,"san antonio, texas, usa",48.0
+218608,"spartanburg, south carolina, usa",31.0
+219683,"santa ana, california, usa",32.0
+224349,"columbia, maryland, usa",23.0
+224764,"rockaway, new jersey, usa",116.0
+225087,"toronto, ontario, canada",51.0
+225595,"savannah, georgia, usa",37.0
+225763,"san francisco, california, usa",
+226965,"clemson, south carolina, usa",47.0
+227447,"kelseyville, california, usa",38.0
+227520,"san jose, california, usa",33.0
+229011,"mclean, virginia, usa",
+230522,"colorado springs, colorado, usa",52.0
+231210,"roanoke, virginia, usa",44.0
+232131,"oakland, california, usa",
+234359,"morro bay, california, usa",35.0
+234828,"fairbanks, alaska, usa",
+235105,"st louis, missouri, usa",46.0
+235282,"encino, california, usa",43.0
+236283,"orlando, florida, usa",41.0
+236340,"st kilda, victoria, australia",29.0
+236757,"mars, pennsylvania, usa",
+239584,"gilroy, california, usa",
+239594,"leuven, vlaams-brabant, belgium",28.0
+240144,"muskego, wisconsin, usa",34.0
+240567,"hawthorne, new jersey, usa",33.0
+241980,"ashburn, virginia, usa",35.0
+242006,"santo domingo, distrito nacional, dominican republic",30.0
+242083,"fairview, new mexico, usa",24.0
+244627,"shelbyville, tennessee, usa",32.0
+245410,"san antonio, texas, usa",28.0
+245827,"albuquerque, ,",
+246311,"lynnwood, washington, usa",35.0
+247447,"long beach, california, usa",19.0
+248718,"hyde park, new york, usa",43.0
+249894,"duncansville, pennsylvania, usa",
+251843,"homer city, pennsylvania, usa",
+251844,"lisboa, lisboa, portugal",30.0
+252695,"lincoln, nebraska, usa",
+254206,"tucson, arizona, usa",31.0
+254465,"maryville, tennessee, usa",22.0
+257204,"akron, ohio, usa",32.0
+258185,"livermore, maine, usa",37.0
+258534,"mcqueeney, texas, usa",32.0
+261829,"fpo, ap, usa",32.0
+264082,"irving, texas, usa",42.0
+264321,"toronto, ontario, canada",33.0
+265115,"vista, california, usa",
+265889,"kitchener, ontario, canada",30.0
+268110,"westerville, ohio, usa",
+268932,"red deer, alberta, canada",38.0
+269566,"seattle, washington, usa",9.0
+270713,"toronto, ontario, canada",27.0
+271448,"ona, west virginia, usa",27.0
+273113,"topeka, kansas, usa",18.0
+274061,"gahanna/columbus, ohio, usa",26.0
+274301,"frankston, victoria, australia",41.0
+277427,"gilbert, arizona, usa",48.0
