@@ -6,6 +6,7 @@ import os
 from functools import lru_cache, wraps
 from pathlib import Path
 
+import pandas as pd
 from flask import Flask, flash, g, redirect, render_template, request, session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -42,9 +43,31 @@ def load_model(data_dir: str, database_path: str):
     return dataset, model
 
 
-def records(frame):
+def records(frame, current_user_id: int | None = None, model=None):
     """Convert books to template-ready records with a lightweight cover URL."""
     result = frame.fillna("").copy()
+    if model is not None and "ISBN" in result:
+        ratings = model.dataset.ratings[model.dataset.ratings["Book-Rating"] > 0]
+        average_ratings = (
+            ratings.groupby("ISBN")["Book-Rating"].mean().round().astype(int)
+        )
+        result["Average-Rating"] = result["ISBN"].map(average_ratings)
+        result["Current-Rating"] = result["Average-Rating"]
+        result["Rating-Source"] = "average"
+        if current_user_id is not None:
+            user_ratings = (
+                ratings[ratings["User-ID"] == current_user_id]
+                .set_index("ISBN")["Book-Rating"]
+                .astype(int)
+            )
+            result["User-Rating"] = result["ISBN"].map(user_ratings)
+            has_user_rating = result["User-Rating"].notna()
+            result.loc[has_user_rating, "Current-Rating"] = result.loc[
+                has_user_rating, "User-Rating"
+            ]
+            result.loc[has_user_rating, "Rating-Source"] = "user"
+            result["User-Rating"] = result["User-Rating"].fillna(0).astype(int)
+        result["Current-Rating"] = result["Current-Rating"].fillna(0).astype(int)
     if "Image-URL-M" in result:
         result["Cover-URL"] = result["Image-URL-M"].where(
             result["Image-URL-M"].astype(str).str.startswith(("http://", "https://")),
@@ -54,6 +77,25 @@ def records(frame):
             "http://", "https://", n=1
         )
     return result.to_dict(orient="records")
+
+
+def rated_books_for_user(model, user_id: int, limit: int | None = None) -> pd.DataFrame:
+    """Return books the user has rated, newest saved rating first."""
+    user_ratings = model.dataset.ratings[
+        (model.dataset.ratings["User-ID"] == user_id)
+        & (model.dataset.ratings["Book-Rating"] > 0)
+    ]
+    if user_ratings.empty:
+        return model.books.head(0)
+
+    rated_isbns = user_ratings["ISBN"].drop_duplicates(keep="last").tolist()[::-1]
+    if limit is not None:
+        rated_isbns = rated_isbns[:limit]
+    rated_books = model.books[model.books["ISBN"].isin(rated_isbns)].copy()
+    rated_books["_rated_order"] = rated_books["ISBN"].map(
+        {isbn: index for index, isbn in enumerate(rated_isbns)}
+    )
+    return rated_books.sort_values("_rated_order").drop(columns="_rated_order")
 
 
 def login_required(view):
@@ -127,6 +169,7 @@ def create_app(
         page = request.args.get("page", 1, type=int)
 
         books = model.books
+        rated_books = model.books.head(0)
         title = "All books"
         message = "Explore popular titles from our curated collection."
 
@@ -136,6 +179,8 @@ def create_app(
         if user_id is not None:
             favorites = [favorite] if favorite else []
             books = model.recommend_for_user(user_id, top_n=12, favorite_titles=favorites)
+            if g.account and user_id == g.account["reader_user_id"]:
+                rated_books = rated_books_for_user(model, user_id)
             title = "Recommended for you"
             weight = round(model.collaborative_weight(user_id) * 100)
             message = f"Personalized with {weight}% collaborative preference."
@@ -154,10 +199,12 @@ def create_app(
             message = f"{len(books)} books matched this collection."
 
         visible_books, pagination = paginate(books.head(120), page)
+        rating_user_id = g.account["reader_user_id"] if g.account else user_id
 
         return render_template(
             template_name,
-            books=records(visible_books),
+            books=records(visible_books, rating_user_id, model),
+            rated_books=records(rated_books, rating_user_id, model),
             users=sorted(model.collaborative.user_to_index),
             title=title,
             message=message,
@@ -251,10 +298,14 @@ def create_app(
         _, model = load_model(app.config["DATA_DIR"], app.config["DATABASE"])
         user_id = g.account["reader_user_id"]
         recommendations = model.recommend_for_user(user_id, top_n=8)
-        user_ratings = model.explicit_ratings[model.explicit_ratings["User-ID"] == user_id]
+        user_ratings = model.dataset.ratings[
+            (model.dataset.ratings["User-ID"] == user_id)
+            & (model.dataset.ratings["Book-Rating"] > 0)
+        ]
         return render_template(
             "profile.html",
-            books=records(recommendations),
+            books=records(recommendations, user_id, model),
+            rated_books=records(rated_books_for_user(model, user_id), user_id, model),
             rating_count=len(user_ratings),
             reader_user_id=user_id,
         )

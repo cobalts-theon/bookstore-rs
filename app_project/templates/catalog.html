@@ -30,6 +30,20 @@
       </form>
     </section>
 
+    {% if rated_books %}
+      <section class="catalog">
+        <div class="section-title">
+          <div>
+            <p class="tag">Your library</p>
+            <h2>Books you rated</h2>
+            <p>Your saved ratings stay separate from the recommendation list.</p>
+          </div>
+        </div>
+        {% set book_grid_books = rated_books %}
+        {% include "_book_grid.html" %}
+      </section>
+    {% endif %}
+
     <section class="catalog">
       <div class="section-title">
         <div>
@@ -38,6 +52,7 @@
           <p>{{ message }}</p>
         </div>
       </div>
+      {% set book_grid_books = books %}
       {% include "_book_grid.html" %}
 
       {% if pagination.pages > 1 %}

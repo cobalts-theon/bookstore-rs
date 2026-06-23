@@ -1,6 +1,7 @@
-{% if books %}
+{% set grid_books = book_grid_books|default(books) %}
+{% if grid_books %}
   <div class="book-grid">
-    {% for book in books %}
+    {% for book in grid_books %}
       <article class="book-card">
         <div class="cover-wrap">
           <img class="cover-image"
@@ -9,7 +10,7 @@
                loading="lazy"
                referrerpolicy="no-referrer"
                onerror="this.onerror=null;this.src='{{ url_for('static', filename='img/book-placeholder.svg') }}'">
-          {% if book.get('Hybrid-Score') is not none %}
+          {% if book.get('Hybrid-Score') is number %}
             <span class="score">{{ (book['Hybrid-Score'] * 100)|round|int }}% match</span>
           {% endif %}
         </div>
@@ -18,16 +19,30 @@
           <h3 title="{{ book['Book-Title'] }}">{{ book['Book-Title'] }}</h3>
           <p class="author">{{ book['Book-Author'] or 'Unknown author' }}</p>
           {% if current_account %}
+            {% set user_rating = book.get('User-Rating', 0)|int %}
+            {% if book.get('Average-Rating') %}
+              <p class="average-rating">Average rating: {{ book['Average-Rating'] }}/10</p>
+            {% endif %}
             <form class="rating-form" action="{{ url_for('rate_book') }}" method="post">
               <input type="hidden" name="isbn" value="{{ book['ISBN'] }}">
               <input type="hidden" name="next" value="{{ request.full_path }}">
               <select name="rating" aria-label="Rating for {{ book['Book-Title'] }}">
+                {% if user_rating == 0 and book.get('Average-Rating') %}
+                  <option value="" selected disabled>Average rating: {{ book['Average-Rating'] }}/10</option>
+                {% elif user_rating == 0 %}
+                  <option value="" selected disabled>Not rated yet</option>
+                {% endif %}
                 {% for value in range(10, 0, -1) %}
-                  <option value="{{ value }}">{{ value }}/10</option>
+                  <option value="{{ value }}" {% if user_rating == value %}selected{% endif %}>
+                    {{ value }}/10
+                  </option>
                 {% endfor %}
               </select>
-              <button type="submit">Save rating</button>
+              <button type="submit">{{ 'Update rating' if user_rating else 'Save rating' }}</button>
             </form>
+            {% if user_rating > 0 %}
+              <p class="user-rating">Your rating: {{ user_rating }}/10</p>
+            {% endif %}
           {% else %}
             <a class="rate-login" href="{{ url_for('login', next=request.full_path) }}">Login to rate</a>
           {% endif %}
